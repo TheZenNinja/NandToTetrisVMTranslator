@@ -1,0 +1,59 @@
+//--push constant 10--
+//get constant 10
+@10
+D=A
+//push to stack
+@0
+A=M
+M=D
+
+//--push local 10--
+//get local 10
+@10
+D=A
+@1
+A=D+M
+D=M
+//push to stack
+@0
+A=M
+M=D
+
+
+
+//--push pointer {loc}
+@{addr} //3
+D=M
+//push to stack
+@0
+A=M
+M=D
+
+//--push temp {loc}
+@{addr}
+D=M
+//push to stack
+@0
+A=M
+M=D
+
+//--push {memSeg} {loc}--
+//get {memSeg} {loc}
+@{loc}
+D=A
+@{addrLoc}
+A=D+M
+D=M
+//push to stack
+@0
+A=M
+M=D
+
+//--push constant {loc}--
+//get constant {loc}
+@{addr}
+D=A
+//push to stack
+@0
+A=M
+M=D

@@ -1,0 +1,47 @@
+//--pop {memSeg} {loc}--
+//get addr {memSeg} {loc}
+@{loc}
+D=A
+@{baseAddr}
+D=D+M
+//save location to gen reg 
+@13
+M=D
+//get value from stack, accounting for the moved pointer
+@0
+A=M
+D=M
+//move back to stored value
+@13
+A=M
+M=D
+//clear stack value
+@0
+A=M
+M=0
+//clear gen reg value
+@13
+M=0
+
+//--pop pointer {loc}--
+//get addr pointer {loc}
+@{addrLoc}
+D=A
+//save location to gen reg 
+@13
+M=D
+//get value from stack, accounting for the moved pointer
+@0
+A=M
+D=M
+//move back to stored value
+@13
+A=M
+M=D
+//clear stack value
+@0
+A=M
+M=0
+//clear gen reg value
+@13
+M=0
