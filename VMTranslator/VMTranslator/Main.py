@@ -1,59 +1,48 @@
+#Team V2
+#Matthew C, Noah L, Michaela H
+#VM Translator
+#Mod 1 Lab 3
+#Translate VM code to Hack asm code
+#Last Updated 10/20/22
 from Parser import Parser
 from CodeWriter import CodeWriter
 
-#get file name
-#fileName = input("please input file name: ")
-fileName = 'test.txt'
-
-#read file
-f = open(fileName, 'r')
-lines = f.read().split('\n')
-f.close()
+inputFile = input("Input File Path: ")
+outputFile = input("Output File Path (Optional): ")
 
 #create parser
-parser = Parser(lines)
-
+parser = Parser(inputFile)
 #create codewriter
-cWriter = CodeWriter(fileName)
+cWriter = CodeWriter(outputFile)
 
+#if there is no stated output file name
+if len(outputFile) < 4:
+    cWriter.setFileName(inputFile)
 
-outFile = open('test.asm', 'w')
-outFile.write('');
-
+#open file
+cWriter.OpenFile()
 
 while parser.hasMoreCommands():
     #check command type
     cmd = parser.commandType()
-    print(cmd)
-    print(parser.arg1())
-    print(parser.arg2())
 
+    #process cmd
     if (cmd == 'push'):
-        c = cWriter.WritePushPop(False, parser.arg1(), parser.arg2())
+        cWriter.WritePushPop(False, parser.arg1(), parser.arg2())
     elif cmd == 'pop':
-        c = cWriter.WritePushPop(True, parser.arg1(), parser.arg2())
+        cWriter.WritePushPop(True, parser.arg1(), parser.arg2())
+    elif cWriter.arithDic.get(cmd) != None:
+        cWriter.writeArithmetic(cmd);
     elif cmd == 'comment':
         parser.advance()
         continue
     else:
         print("invalid command '", cmd, "'")
-
-
-    print(c)
-    outFile.write(c)
-    #match cmd:
-    #case cmd == 'push':
-    #    cWriter.WritePushPop(False, parser.arg1(), parser.arg2())
-    #    break;
-    #case cmd == 'pop':
-    #    cWriter.WritePushPop(True, parser.arg1(), parser.arg2())
-    #    break
-    #case _:
-    #    print("invalid command '", cmd, "'")
-    #    break
-    parser.advance()
-    #codewriter write
-    
+        break;
     #advance
+    parser.advance()
 
-outFile.close()
+#close file
+cWriter.CloseFile()
+
+print(inputFile, "converted to asm")

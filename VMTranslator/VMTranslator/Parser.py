@@ -1,7 +1,16 @@
+#Team V2
+#Matthew C, Noah L, Michaela H
+#VM Translator - Parser
+#Mod 1 Lab 3
+#Reads input file and seperates VM commands into components
+#Last Updated 10/20/22
 import re
 class Parser(object):
-    def __init__(self, lines):
-        self.lines = lines
+    def __init__(self, inputFileName):
+        f = open(inputFileName, 'r')
+        self.lines = f.read().split('\n')
+        f.close()
+
         self.lineNum = -1;
         self.currentLine = '';
         self.advance()
@@ -26,9 +35,17 @@ class Parser(object):
     
     def arg1(self):
         #split current line and return [1] item
-        return self.currentLine.split()[1]
+        a = self.currentLine.split()
+        if len(a) > 1:
+            return a[1]
+        else:
+            return "error"
     
     def arg2(self):
         #split current line and return [2] item
-        return self.currentLine.split()[2]
+        a = self.currentLine.split()
+        if len(a) > 2:
+            return a[2]
+        else:
+            return "error"
 
